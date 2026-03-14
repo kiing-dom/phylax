@@ -12,7 +12,9 @@ type Storage struct {
 }
 
 func NewStorage() *Storage {
-	return &Storage{}
+	return &Storage{
+		traces: make(map[string][]tracing.Span),
+	}
 }
 
 func (s *Storage) AddSpan(span tracing.Span) {
