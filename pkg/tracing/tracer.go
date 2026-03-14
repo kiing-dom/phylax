@@ -24,3 +24,16 @@ func (t *Tracer) StartSpan(operation string) *Span {
 		StartTime: time.Now(),
 	}
 }
+
+func (t *Tracer) StartSpanFromContext(ctx TraceContext, operation string) *Span {
+	return &Span{
+		TraceID:      ctx.TraceID,
+		SpanID:       generateID(),
+		ParentSpanID: ctx.ParentSpanID,
+
+		Service:   t.Service,
+		Operation: operation,
+
+		StartTime: time.Now(),
+	}
+}

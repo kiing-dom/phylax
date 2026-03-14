@@ -14,6 +14,13 @@ type Span struct {
 	Duration  time.Duration `json:"duration"`
 }
 
+func (s *Span) Context() TraceContext {
+	return TraceContext{
+		TraceID:      s.TraceID,
+		ParentSpanID: s.SpanID,
+	}
+}
+
 func (s *Span) End() {
 	s.Duration = time.Since(s.StartTime)
 }
