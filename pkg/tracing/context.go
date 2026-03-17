@@ -16,3 +16,10 @@ func Inject(ctx TraceContext, req *http.Request) {
 	req.Header.Set(TraceIDHeader, ctx.TraceID)
 	req.Header.Set(ParentSpanHeader, ctx.ParentSpanID)
 }
+
+func Extract(r *http.Request) TraceContext {
+	return TraceContext{
+		TraceID:      r.Header.Get(TraceIDHeader),
+		ParentSpanID: r.Header.Get(ParentSpanHeader),
+	}
+}
