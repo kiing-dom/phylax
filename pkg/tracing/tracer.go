@@ -3,12 +3,14 @@ package tracing
 import "time"
 
 type Tracer struct {
-	Service string
+	Service  string
+	Exporter Exporter
 }
 
-func NewTracer(service string) *Tracer {
+func NewTracer(service string, exporter Exporter) *Tracer {
 	return &Tracer{
-		Service: service,
+		Service:  service,
+		Exporter: exporter,
 	}
 }
 
@@ -22,6 +24,7 @@ func (t *Tracer) StartSpan(operation string) *Span {
 		Operation: operation,
 
 		StartTime: time.Now(),
+		exporter:  t.Exporter,
 	}
 }
 
@@ -35,5 +38,6 @@ func (t *Tracer) StartSpanFromContext(ctx TraceContext, operation string) *Span 
 		Operation: operation,
 
 		StartTime: time.Now(),
+		exporter:  t.Exporter,
 	}
 }

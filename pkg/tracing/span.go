@@ -12,6 +12,8 @@ type Span struct {
 
 	StartTime time.Time     `json:"start_time"`
 	Duration  time.Duration `json:"duration"`
+
+	exporter Exporter
 }
 
 func (s *Span) Context() TraceContext {
@@ -23,4 +25,8 @@ func (s *Span) Context() TraceContext {
 
 func (s *Span) End() {
 	s.Duration = time.Since(s.StartTime)
+
+	if s.exporter != nil {
+		s.exporter.Export(s)
+	}
 }
